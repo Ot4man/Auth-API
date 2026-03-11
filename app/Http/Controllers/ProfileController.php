@@ -15,6 +15,15 @@ class ProfileController extends Controller
         'data' => $request->user()
     ], 200);
 }
+public function update(UpdateProfileRequest $request)
+{
+    $user = $request->user();
 
+    $user->update($request->only(['name','email']));
+
+    return response()->json([
+        'message' => 'Profile updated successfully'
+    ], 200);
+}
 
 }
