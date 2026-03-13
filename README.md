@@ -1,59 +1,149 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Auth-API 🔐
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Une API REST robuste développée avec **Laravel** pour la gestion de l'authentification et des profils utilisateurs. Entièrement sécurisée via **Laravel Sanctum**.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 Fonctionnalités
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Authentification complète** : Inscription, Connexion, Déconnexion.
+- **Gestion de Profil** : Consultation, mise à jour des informations et suppression du compte.
+- **Sécurité** : Routes protégées par token, hachage des mots de passe.
+- **Validation** : Contrôle strict des données d'entrée.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 🛠️ Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Prérequis
+- PHP >= 8.2
+- Composer
+- MariaDB / MySQL ou SQLite
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Étapes d'installation
 
-## Laravel Sponsors
+1. **Cloner le projet**
+   ```bash
+   git clone <votre-repo-url>
+   cd Auth-API
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Installer les dépendances**
+   ```bash
+   composer install
+   ```
 
-### Premium Partners
+3. **Configurer l'environnement**
+   ```bash
+   cp .env.example .env
+   ```
+   *Note : Configurez votre base de données dans le fichier `.env`.*
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. **Générer la clé d'application**
+   ```bash
+   php artisan key:generate
+   ```
 
-## Contributing
+5. **Lancer les migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Lancer le serveur**
+   ```bash
+   php artisan serve
+   ```
+   L'API sera accessible sur `http://127.0.0.1:8000`.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 📖 Documentation de l'API
 
-## Security Vulnerabilities
+### Authentification (Publique)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### 1. Inscription
+- **Route** : `POST /api/register`
+- **Body (JSON)** :
+  ```json
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123"
+  }
+  ```
+- **Réponse (201)** : `{"message": "Account created successfully"}`
 
-## License
+#### 2. Connexion
+- **Route** : `POST /api/login`
+- **Body (JSON)** :
+  ```json
+  {
+    "email": "john@example.com",
+    "password": "password123"
+  }
+  ```
+- **Réponse (200)** : 
+  ```json
+  {
+    "message": "Login successful",
+    "token": "1|AbCde..."
+  }
+  ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+### Gestion du Profil (Protégée)
+*Note : Toutes ces routes nécessitent un header `Authorization: Bearer <token>`.*
+
+#### 3. Consulter son profil
+- **Route** : `GET /api/me`
+- **Réponse (200)** : `{"message": "Profile fetched successfully", "data": {...}}`
+
+#### 4. Modifier son profil
+- **Route** : `PUT /api/me`
+- **Body (JSON)** : `{"name": "New Name", "email": "new@example.com"}`
+- **Réponse (200)** : `{"message": "Profile updated successfully"}`
+
+#### 5. Changer le mot de passe
+- **Route** : `PUT /api/me/password`
+- **Body (JSON)** :
+  ```json
+  {
+    "current_password": "old_password",
+    "new_password": "new_password123",
+    "new_password_confirmation": "new_password123"
+  }
+  ```
+- **Réponse (200)** : `{"message": "Password updated successfully"}`
+
+#### 6. Déconnexion
+- **Route** : `POST /api/logout`
+- **Réponse (200)** : `{"message": "Logout successful"}`
+
+#### 7. Supprimer son compte
+- **Route** : `DELETE /api/me`
+- **Réponse (200)** : `{"message": "Account deleted successfully"}`
+
+---
+
+## 🧪 Scénario de Test (Postman)
+
+1. **Inscription** : `POST /api/register` avec des données valides.
+2. **Connexion** : `POST /api/login` pour récupérer le `token`.
+3. **Accès refusé** : `GET /api/me` sans token (doit retourner 401).
+4. **Accès autorisé** : `GET /api/me` avec le token dans le Bearer.
+5. **Mise à jour** : `PUT /api/me` pour changer le nom.
+6. **Sécurité** : `PUT /api/me/password` pour changer le mot de passe.
+7. **Déconnexion** : `POST /api/logout`.
+8. **Vérification** : `GET /api/me` avec l'ancien token (doit échouer).
+
+---
+
+## ⚠️ Codes Retours Communs
+
+| Code | Signification | Message Type |
+|---|---|---|
+| **200/201** | Succès | Opération réussie |
+| **401** | Unauthorized | Token absent ou invalide |
+| **422** | Unprocessable Entity | Erreur de validation (ex: mot de passe trop court) |
+| **500** | Server Error | Erreur interne du serveur |
