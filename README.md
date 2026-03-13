@@ -59,6 +59,11 @@ Une API REST robuste développée avec **Laravel** pour la gestion de l'authenti
 
 ## 📖 Documentation de l'API
 
+L'API est documentée avec **Swagger (OpenAPI)**. Vous pouvez tester les routes directement depuis l'interface interactive.
+
+- **Interface Swagger UI** : `http://127.0.0.1:8000/api/documentation` (ou `/docs`)
+- **Fichier JSON** : `http://127.0.0.1:8000/docs/api-docs.json`
+
 ### Authentification (Publique)
 
 #### 1. Inscription
@@ -66,8 +71,8 @@ Une API REST robuste développée avec **Laravel** pour la gestion de l'authenti
 - **Body (JSON)** :
   ```json
   {
-    "name": "John Doe",
-    "email": "john@example.com",
+    "name": "Otman",
+    "email": "Otman@test.com",
     "password": "password123"
   }
   ```
@@ -78,7 +83,7 @@ Une API REST robuste développée avec **Laravel** pour la gestion de l'authenti
 - **Body (JSON)** :
   ```json
   {
-    "email": "john@example.com",
+    "email": "Otman@test.com",
     "password": "password123"
   }
   ```
